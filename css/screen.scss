@@ -1,0 +1,433 @@
+@import "_reset";
+@import "_thematic";
+@import "animation";
+
+
+$pri: #6ABE26; /* GREEN */
+$sec: #3b434a; /* GREY */
+$ter: #f9375b; /* PINK */
+$twitter: #3296d6;
+
+/*--------------------------*/
+/* MAIN STRUCTURE
+/*--------------------------*/
+html,
+body,
+.build {
+	width: 100%;
+	height: 100%;
+}
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background: darken(#3b434a, 10%);
+}
+.build {
+	position: relative;
+	background: darken(#3b434a, 10%);
+	padding: 2em 2em 7.5em;
+	color: #FFF;
+	display: flex;
+	height: 100vh;
+	min-height: 550px;
+	align-items: center;
+	justify-content: center;
+	font: 400 ($baseSize/16) + em/(25/$baseSize) $font_body;
+	/*opacity: 0;
+	transition: opacity .4s ease;
+	&.loaded {
+		opacity: 1;
+	}*/
+}
+a {
+	@extend %trans_norm;
+    text-decoration: none;
+    color: inherit;
+}
+button {
+	cursor: pointer;
+}
+.center {
+	text-align: center;
+}
+.parent {
+	@extend %clearfix;
+	position: relative;
+	width: 100%;
+}
+
+/*--------------------------*/
+/* CUSTOM SCALING
+/*--------------------------*/
+html { font-size: .5em; }
+@media all and (min-width: 414px) { html { font-size: .65em; } }
+@media all and (min-width: 768px) { html { font-size: .75em; } }
+@media all and (min-width: 1024px) { html { font-size: .85em; } }
+@media all and (min-width: 1300px) { html { font-size: 1em; } }
+
+/*--------------------------*/
+/*
+/*--------------------------*/
+.main h2 {
+	@include fontSize(34);
+	margin: 0 auto .5em;
+	button {
+		@extend %btn_reset;
+		background: transparent;
+		color: rgba(#FFF, .3);
+		font-size: 50%;
+	}
+}
+.main__form {
+	font-size: 2.4em;
+	margin: 0 -.25em;
+	text-align: center;
+	input {
+		max-width: 9em;
+		margin: 1em 0 0;
+	}
+}
+
+input {
+	width: 100%;
+	padding: 1em;
+	outline: 0;
+	background: rgba(#000, .2);
+	&[data-type="col"]{
+		text-transform: uppercase;
+	}
+}
+.calc__output {
+	@extend %abs_fill;
+	top: auto;
+	font-size: 1.8em;
+	height: 3.5em;
+	line-height: 3.5;
+	cursor: pointer;
+	overflow: hidden;
+	background: darken(saturate(#3b434a, 1.5), 18.4);
+	> div {
+		cursor: pointer;
+		will-change: transform;
+	}
+	&--val {
+		.active & {
+			animation: successTwo 2.5s cubic-bezier(.68,-0.55,.27,1.55) 1 forwards,
+						successThree .35s cubic-bezier(.68,-0.55,.27,1.55) 1 1.65s forwards;
+		}
+	}
+	&--success {
+		@extend %abs_fill;
+		color: darken(#C0FFEE, 37.6);
+		fill: darken(#C0FFEE, 37.6);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transform: translateY(100%);
+		background: darken(saturate(#3b434a, 1.5), 18.4);
+		span {
+			margin: 0 .65em 0 .5em;
+		}
+		.active & {
+			animation: success 2.5s cubic-bezier(.68,-0.55,.27,1.55) 1 forwards;
+		}
+	}
+}
+.border {
+	overflow: hidden;
+	border-radius: 12px;
+	border: 4px solid #3b434a;
+	transition: border-color .2s ease, padding .4s cubic-bezier(.68,-0.55,.27,1.55), color .4s cubic-bezier(.68,-0.55,.27,1.55), opacity .4s cubic-bezier(.68,-0.55,.27,1.55), visibility .4s cubic-bezier(.68,-0.55,.27,1.55);
+	.main__form & {
+		border-width: 14px;
+		border-radius: 34px;
+	}
+}
+.btn {
+	@extend %btn_reset;
+	background: transparent;
+	position: relative;
+	width: 4em;
+	height: 4em;
+	color: #FFF;
+	border: 4px solid #3b434a;
+	transition: opacity .4s cubic-bezier(.68,-0.55,.27,1.55), visibility .4s cubic-bezier(.68,-0.55,.27,1.55);
+	svg {
+		@extend %abs_fill;
+		margin: auto;
+		width: 2.25em;
+		height: 2.25em;
+		fill: lighten(#3b434a, 3%);
+		transition: fill .3s ease;
+	}
+	&:hover svg {
+		fill: #FFF;
+	}
+	.faves & {
+		vertical-align: top;
+		border-bottom-left-radius: 12px;
+		border-bottom-right-radius: 12px;
+	}
+}
+.calc__faves--add,
+.calc__faves--import,
+.calc__faves--clear {
+	border-top: 0;
+	transform: translateY(0);
+	transition: transform .3s ease;
+	.closed & {
+		transform: translateY(-100%);
+		transition-delay: 0s;
+	}
+}
+.calc__faves--add svg {
+	width: 2em;
+	height: 2em;
+}
+.calc__faves--import {
+	transition-delay: .2s;
+}
+.calc__faves--clear {
+	transition-delay: .4s;
+	svg {
+		width: 1.8em;
+		height: 1.8em;
+	}
+}
+.faves {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 6.35em;
+	overflow: hidden;
+	overflow-y: auto;
+	display: none;
+	white-space: nowrap;
+	max-width: 30em;
+	padding-left: 1em;
+	padding-right: 10em;
+	transition: max-width .3s ease, padding .3s ease;
+	&.closed {
+		max-width: 5em;
+		padding-right: 0;
+		input {
+			width: 0;
+			opacity: 0;
+			visibility: hidden;
+			/*color: transparent;*/
+			padding-right: 0;
+			transition: opacity .1s ease, visibility .1s ease;
+			/*&:placeholder-shown,
+			&:placeholder-shown + button {
+				opacity: 0;
+				visibility: hidden;
+			}*/
+		}
+		.calc__faves--expand svg {
+			fill: rgba(#FFF, .3);
+		}
+	}
+	&__itm {
+		position: relative;
+		margin-top: .75em;
+	}
+	> div {
+		display: inline-block;
+		vertical-align: top;
+	}
+	input {
+		width: auto;
+		height: 3.425em;
+		line-height: 3.425;
+		padding: 0 1em;
+		overflow: hidden;
+		display: inline-block;
+		color: #FFF;
+		will-change: opacity;
+		transition: opacity .3s ease .2s, visibility .3s ease .2s;
+		&[data-type="col"]{
+			width: 6em;
+		}
+		&[data-type="var"]{
+			width: 11em;
+			background: #2d3439;
+			padding-right: 4.15em;
+		}
+	}
+	&__import {
+		font-size: inherit;
+		font-family: inherit;
+		line-height: 1.4;
+		transition: opacity .3s ease .2s, visibility .3s ease .2s, transform .3s ease .2s;
+		background: #2d3439;
+		resize: none;
+		position: absolute;
+		top: 4.5em;
+		left: 1em;
+		width: 17.65em;
+		height: 10em;
+		height: calc(100vh - 12em);
+		color: darken(#C0FFEE, 37.6);
+		padding: 1em;
+		opacity: 0;
+		visibility: hidden;
+		transform: translateX(-100%);
+		.import & {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+		}
+	}
+}
+
+
+.calc__faves__btn {
+	border: none;
+}
+.calc__faves--apply {
+	position: absolute;
+	display: block;
+	width: 3.35em;
+	top: 4px;
+	bottom: 4px;
+	right: 0;
+	height: auto;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	svg {
+		fill: #FFF;
+	}
+}
+.calc__faves--expand {
+	background: #3b434a;
+	svg {
+		width: 1.75em;
+		height: 1.75em;
+		fill: #FFF;
+		transition: fill .3s ease;
+	}
+}
+.calc__faves--import {
+	svg {
+		width: 1.75em;
+		height: 1.75em;
+		.import & {
+			fill: #FFF;
+		}
+	}
+}
+.faves__clear {
+	margin: 0;
+	display: inline-block;
+	transform: translateY(-100%);
+	transition: transform .3s ease;
+	.full & {
+		transform: translateY(0)
+	}
+}
+.calc__faves--confirm {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	z-index: 2;
+	margin: 0;
+	padding: 0 0 0 .5em;
+	line-height: 3.8;
+	visibility: hidden;
+	.btn {
+		border-top: 0;
+		background: #24292e;
+		border-color: darken(#C0FFEE, 37.6);
+		color: darken(#C0FFEE, 37.6);
+		transition: color .3s ease, opacity .3s ease, visibility .3s ease;
+		opacity: 0;
+		.confirm & {
+			visibility: visible;
+			opacity: 1;
+		}
+	}
+}
+
+@media all and (min-width: 768px) {
+	input {
+		border-width: 14px
+	}
+}
+
+@media all and (min-width: 850px) {
+	.faves {
+		display: block;
+		input {
+			border-width: 4px;
+		}
+	}
+}
+
+
+/*--------------------------*/
+/* CHNAGELOG
+/*--------------------------*/
+.changelog {
+	position: fixed;
+	top: 20%;
+	left: 20%;
+	right: 20%;
+	bottom: 20%;
+	margin: auto;
+	max-width: 40em;
+	max-height: 40em;
+	padding: 3em;
+	background: darken(#3b434a, 10%);
+	box-shadow: 0 0 0 200vw rgba(#000, .8);
+	overflow: hidden;
+	overflow-y: auto;
+	font-size: 1.35em;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(1em);
+	transition: transform .4s ease, opacity .4s ease, visibility .4s ease;
+	&__btn:hover {
+		transition: color .3s ease;
+		color: #00ffba;
+	}
+	h3 {
+		color: #00ffba;
+		span {
+			color: rgba(#FFF, .3);
+			margin-left: .5em;
+		}
+	}
+	hr {
+		margin: 1.2em 0;
+		opacity: .4;
+	}
+	.view-changelog & {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+	}
+	.changelog__btn {
+		width: 1.5em;
+		height: 1.5em;
+		background: #00ffba;
+		border-radius: 50%;
+		position: absolute;
+		top: 1em;
+		right: 1em;
+	}
+}
+
+/*--------------------------*/
+/* CHNAGELOG
+/*--------------------------*/
+.bmc-btn-container {
+	position: fixed;
+	bottom: 1.5em;
+	right: 1.5em;
+	font-size: .6em;
+	transform: scale(.75);
+	transform-origin: 100% 100%;
+}

@@ -1,0 +1,2 @@
+
+RedirectMatch \.(dynamiccontent|pl|plx|perl|cgi|php|php4|php5|php6|php3|shtml)$ http://digitalgibbon.co.uk/cgi-sys/movingpage.cgi

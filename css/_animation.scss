@@ -1,0 +1,27 @@
+@keyframes success {
+	15% {
+		transform: translateY(0%);
+	}
+	65% {
+		transform: translateY(0%);
+	}
+	80%, 100% {
+		transform: translateY(-100%);
+	}
+}
+@keyframes successTwo {
+	15%, 100% {
+		transform: translateY(-100%);
+	}
+}
+@keyframes successThree {
+	0% {
+		transform: translateY(100%);
+	}
+	0% {
+		transform: translateY(100%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}

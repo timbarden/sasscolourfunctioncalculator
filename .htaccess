@@ -1,0 +1,6 @@
+
+#RedirectMatch \.(dynamiccontent|pl|plx|perl|cgi|php|php4|php5|php6|php3|shtml)$ http://digitalgibbon.co.uk/cgi-sys/movingpage.cgi
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# This domain inherits the “PHP” package.
+# php -- END cPanel-generated handler, do not edit
